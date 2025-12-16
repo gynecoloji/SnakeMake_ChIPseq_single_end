@@ -135,8 +135,8 @@ rule fastp:
               --thread {threads} \
               --html {output.html} \
               --json {output.json} \
-              --detect_adapter_for_pe --trim_poly_g \
-              --length_required 30 -p --cut_front --cut_tail --cut_window_size 4 --cut_mean_quality 20 > {log} 2>&1
+              --trim_poly_g \
+              --length_required 30 --cut_front --cut_tail --cut_window_size 4 --cut_mean_quality 20 > {log} 2>&1
         """
 
 # Align reads with HISAT2 (SINGLE-END)

@@ -1,11 +1,11 @@
-# Advanced ChIP-seq Analysis Pipeline
-A comprehensive Snakemake workflow for ChIP-seq data analysis that incorporates quality control, read trimming, alignment, filtering, peak calling with both narrow and broad modes, and blacklist filtering in a single, easy-to-use pipeline.
+# ChIP-seq Analysis Pipeline
+
+A comprehensive Snakemake workflow for processing single-end ChIP-seq data from raw FASTQ files to peak calling and visualization. Workflow is very similar to paired-end ChIP-seq workflow (https://github.com/gynecoloji/SnakeMake_ChIPseq)
 
 ## 📚 Table of Contents
 
 - [Overview](#overview)
 - [Pipeline Components](#pipeline-components)
-- [Workflow Diagram](#workflow-diagram)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -44,10 +44,6 @@ The workflow consists of several key components:
 ### QC Reporting
 - **Blacklist Filtering Statistics**: Custom reporting on blacklist filtering effectiveness
 
-## Results Visualization
-
-![Workflow Plot](flowchart.png)
-
 ## 🛠️ Requirements
 
 - Snakemake
@@ -67,8 +63,8 @@ The workflow consists of several key components:
 Clone the repository:
 
 ```bash
-git clone https://github.com/gynecoloji/SnakeMake_ChIPseq.git
-cd SnakeMake_ChIPseq
+git clone https://github.com/gynecoloji/SnakeMake_ChIPseq_single_end.git
+cd SnakeMake_ChIPseq_single_end
 ```
 
 Create the snakemake conda environment:
@@ -105,7 +101,7 @@ snakemake --cores 8 --use-conda -s snakefile_tolerant_ChIPseq
 
 ## 📁 Input Requirements
 
-- **FASTQ files**: Paired-end reads with naming pattern `{sample}_R1_001.fastq.gz` and `{sample}_R2_001.fastq.gz`
+- **FASTQ files**: Single-end reads with naming pattern `{sample}.fastq.gz` 
 - **Sample information table**: CSV file (samples.csv) with the following structure:
 
   | sample_id | condition | replicate | input_control | peak_mode | notes |
@@ -156,15 +152,13 @@ The pipeline uses a CSV file (samples.csv) with 6 columns to manage samples and 
 - **FastQC**:
   - Threads: 4 (configurable)
 
-- **Fastp**:
+- **Fastp**: 
   - Quality requirement: 30+ base quality
-  - Adapter detection: automatic for paired-end
+  - Adapter detection: automatic for single-end
   - PolyG trimming: enabled
   - Quality trimming: 4bp windows, Q20 threshold
 
 - **HISAT2**:
-  - Max fragment length: 3000bp
-  - Mixed/discordant alignments: disabled
   - Spliced alignment: disabled (ChIP-seq specific)
   - Tolerant mode (added parameters): --score-min L,0,-0.6 \
                                       --mp 4,2 \
@@ -175,7 +169,6 @@ The pipeline uses a CSV file (samples.csv) with 6 columns to manage samples and 
   - Uniquely mapped: Only reads with NH:i:1 tag
 
 - **MACS2**:
-  - Format: BAMPE (paired-end)
   - Genome: hs (human)
   - Q-value cutoff: 0.05
   - No model mode for samples without input controls
@@ -200,5 +193,5 @@ For questions or feedback, please open an issue on the GitHub repository or cont
 
 ---
 
-Last updated: Dec 10, 2025  
+Last updated: Dec 15, 2025  
 Created by: gynecoloji
