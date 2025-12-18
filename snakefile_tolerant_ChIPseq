@@ -417,7 +417,7 @@ rule create_bigwig:
             --numberOfProcessors {threads} \
             --outFileName {output.bigwig} \
             --outFileFormat bigwig \
-            --extendReads \
+            --extendReads 200 \
             --blackListFileName {params.blacklist} > {log} 2>&1
         """
 
